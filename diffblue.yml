@@ -1,0 +1,413 @@
+#
+#    Copyright 2015-2019 the original author or authors.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+#
+
+cbmcArguments:
+  java-generate-no-comments: true
+phases:
+-
+  timeout: 60
+  cbmcArguments:
+    java-assume-inputs-non-null: true
+    max-nondet-array-length: 10
+    string-non-empty: true
+    string-printable: true
+    unwind: 1
+-
+  timeout: 60
+  cbmcArguments:
+    classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 10
+    unwind: 1
+-
+  timeout: 60
+  cbmcArguments:
+    classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 20
+    unwind: 2
+    string-non-empty: true
+    java-assume-inputs-non-null: true
+-
+  timeout: 60
+  cbmcArguments:
+    classpath: '/tools/cbmc/models-simple-overlay.jar:/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 20
+    unwind: 2
+-
+  timeout: 60
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 30
+    max-nondet-string-length: 10
+    unwind: 3
+    string-non-empty: true
+    java-assume-inputs-non-null: true
+-
+  timeout: 60
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 30
+    max-nondet-string-length: 10
+    unwind: 3
+-
+  timeout: 120
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 30
+    max-nondet-string-length: 10
+    unwind: 4
+    load-containing-class-only: true
+    string-non-empty: true
+    java-assume-inputs-non-null: true
+-
+  timeout: 120
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 50
+    max-nondet-string-length: 50
+    unwind: 4
+    load-containing-class-only: true
+-
+  timeout: 120
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 130
+    max-nondet-string-length: 110
+    unwind: 10
+    string-non-empty: true
+    java-assume-inputs-non-null: true
+-
+  timeout: 120
+  cbmcArguments:
+    classpath: '/tools/cbmc/models.jar:.'
+    max-nondet-array-length: 300
+    max-nondet-string-length: 100
+    unwind: 10
+units:
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/event/logger/handler/EngineCreatedEventHandler.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/event/logger/handler/EngineCreatedEventHandler.java
+    # Child of EngineCreatedEventHandler.class
+    - dir: modules/flowable-engine-common/target/classes
+      file: org/flowable/common/engine/impl/interceptor/CommandContext.class
+      sourceDir: modules/flowable-engine-common/src/main/java
+      sourceFile: org/flowable/common/engine/impl/interceptor/CommandContext.java
+    # Child of EngineCreatedEventHandler.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/EventLogEntryEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/EventLogEntryEntity.java
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/event/logger/handler/EngineClosedEventHandler.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/event/logger/handler/EngineClosedEventHandler.java
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/cmd/StartProcessInstanceByMessageCmd.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/cmd/StartProcessInstanceByMessageCmd.java
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/bpmn/deployer/EventSubscriptionManager.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/bpmn/deployer/EventSubscriptionManager.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/BpmnModel.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/BpmnModel.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/EventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/EventDefinition.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/FlowElement.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/FlowElement.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/MessageEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/MessageEventDefinition.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/Process.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/Process.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/Signal.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/Signal.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/SignalEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/SignalEventDefinition.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/StartEvent.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/StartEvent.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/FlowableException.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/FlowableException.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine-common/target/classes
+      file: org/flowable/common/engine/impl/context/Context.class
+      sourceDir: modules/flowable-engine-common/src/main/java
+      sourceFile: org/flowable/common/engine/impl/context/Context.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine-common/target/classes
+      file: org/flowable/common/engine/impl/util/CollectionUtil.class
+      sourceDir: modules/flowable-engine-common/src/main/java
+      sourceFile: org/flowable/common/engine/impl/util/CollectionUtil.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/event/MessageEventHandler.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/event/MessageEventHandler.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/event/SignalEventHandler.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/event/SignalEventHandler.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/EventSubscriptionEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/EventSubscriptionEntity.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/EventSubscriptionEntityManager.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/EventSubscriptionEntityManager.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/MessageEventSubscriptionEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/MessageEventSubscriptionEntity.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/ProcessDefinitionEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/ProcessDefinitionEntity.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/SignalEventSubscriptionEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/SignalEventSubscriptionEntity.java
+    # Child of EventSubscriptionManager.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/util/CommandContextUtil.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/util/CommandContextUtil.java
+  - target:
+    - dir: modules/flowable-process-validation/target/classes
+      file: org/flowable/validation/validator/impl/BoundaryEventValidator.class
+      sourceDir: modules/flowable-process-validation/src/main/java
+      sourceFile: org/flowable/validation/validator/impl/BoundaryEventValidator.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/BoundaryEvent.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/BoundaryEvent.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/CancelEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/CancelEventDefinition.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/CompensateEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/CompensateEventDefinition.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/ErrorEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/ErrorEventDefinition.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/TimerEventDefinition.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/TimerEventDefinition.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/Transaction.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/Transaction.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-process-validation/target/classes
+      file: org/flowable/validation/ValidationError.class
+      sourceDir: modules/flowable-process-validation/src/main/java
+      sourceFile: org/flowable/validation/ValidationError.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-process-validation/target/classes
+      file: org/flowable/validation/validator/Problems.class
+      sourceDir: modules/flowable-process-validation/src/main/java
+      sourceFile: org/flowable/validation/validator/Problems.java
+    # Child of BoundaryEventValidator.class
+    - dir: modules/flowable-process-validation/target/classes
+      file: org/flowable/validation/validator/ProcessLevelValidator.class
+      sourceDir: modules/flowable-process-validation/src/main/java
+      sourceFile: org/flowable/validation/validator/ProcessLevelValidator.java
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/delegate/event/AbstractFlowableEngineEventListener.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/delegate/event/AbstractFlowableEngineEventListener.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/delegate/event/AbstractFlowableEventListener.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/delegate/event/AbstractFlowableEventListener.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/delegate/event/FlowableEngineEntityEvent.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/delegate/event/FlowableEngineEntityEvent.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/delegate/event/FlowableEngineEvent.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/delegate/event/FlowableEngineEvent.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/delegate/event/FlowableEngineEventType.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/delegate/event/FlowableEngineEventType.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine-common-api/target/classes
+      file: org/flowable/common/engine/api/delegate/event/FlowableEvent.class
+      sourceDir: modules/flowable-engine-common-api/src/main/java
+      sourceFile: org/flowable/common/engine/api/delegate/event/FlowableEvent.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/delegate/DelegateExecution.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/delegate/DelegateExecution.java
+    # Child of AbstractFlowableEngineEventListener.class
+    - dir: modules/flowable-variable-service-api/target/classes
+      file: org/flowable/variable/api/event/FlowableVariableEvent.class
+      sourceDir: modules/flowable-variable-service-api/src/main/java
+      sourceFile: org/flowable/variable/api/event/FlowableVariableEvent.java
+  - target:
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/dynamic/BaseDynamicSubProcessInjectUtil.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/dynamic/BaseDynamicSubProcessInjectUtil.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/FieldExtension.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/FieldExtension.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/FlowElementsContainer.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/FlowElementsContainer.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/GraphicInfo.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/GraphicInfo.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/SequenceFlow.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/SequenceFlow.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/ServiceTask.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/ServiceTask.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/SubProcess.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/SubProcess.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-bpmn-model/target/classes
+      file: org/flowable/bpmn/model/UserTask.class
+      sourceDir: modules/flowable-bpmn-model/src/main/java
+      sourceFile: org/flowable/bpmn/model/UserTask.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine-common/target/classes
+      file: org/flowable/common/engine/impl/util/IoUtil.class
+      sourceDir: modules/flowable-engine-common/src/main/java
+      sourceFile: org/flowable/common/engine/impl/util/IoUtil.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-dmn-api/target/classes
+      file: org/flowable/dmn/api/DmnDecisionTable.class
+      sourceDir: modules/flowable-dmn-api/src/main/java
+      sourceFile: org/flowable/dmn/api/DmnDecisionTable.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-dmn-api/target/classes
+      file: org/flowable/dmn/api/DmnDeployment.class
+      sourceDir: modules/flowable-dmn-api/src/main/java
+      sourceFile: org/flowable/dmn/api/DmnDeployment.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-dmn-api/target/classes
+      file: org/flowable/dmn/api/DmnRepositoryService.class
+      sourceDir: modules/flowable-dmn-api/src/main/java
+      sourceFile: org/flowable/dmn/api/DmnRepositoryService.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/DeploymentEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/DeploymentEntity.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/ResourceEntity.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/ResourceEntity.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/impl/persistence/entity/ResourceEntityManager.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/impl/persistence/entity/ResourceEntityManager.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/repository/Deployment.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/repository/Deployment.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-engine/target/classes
+      file: org/flowable/engine/repository/ProcessDefinition.class
+      sourceDir: modules/flowable-engine/src/main/java
+      sourceFile: org/flowable/engine/repository/ProcessDefinition.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-form-api/target/classes
+      file: org/flowable/form/api/FormDefinition.class
+      sourceDir: modules/flowable-form-api/src/main/java
+      sourceFile: org/flowable/form/api/FormDefinition.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-form-api/target/classes
+      file: org/flowable/form/api/FormDeployment.class
+      sourceDir: modules/flowable-form-api/src/main/java
+      sourceFile: org/flowable/form/api/FormDeployment.java
+    # Child of BaseDynamicSubProcessInjectUtil.class
+    - dir: modules/flowable-form-api/target/classes
+      file: org/flowable/form/api/FormRepositoryService.class
+      sourceDir: modules/flowable-form-api/src/main/java
+      sourceFile: org/flowable/form/api/FormRepositoryService.java
